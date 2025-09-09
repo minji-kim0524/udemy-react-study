@@ -1,9 +1,9 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 
 export default function Player() {
   const playerName = useRef();
 
-  const [enteredPlayerName, setEnteredPlayerName] = useState("");
+  const [enteredPlayerName, setEnteredPlayerName] = useState(null);
   // useRef(참조) 를 활용하여 코드 4줄을 줄일 수 있다.
   // const [submitted, setSubmitted] = useState(false);
 
@@ -14,6 +14,7 @@ export default function Player() {
 
   function handleClick() {
     setEnteredPlayerName(playerName.current.value);
+    playerName.current.value = "";
   }
 
   return (
