@@ -1,25 +1,26 @@
 import { useState } from "react";
 
 export default function Player() {
-  const [enteredPlayerName, setEnteredPlayerName] = useState("");
-  const [submitted, setSubmitted] = useState(false);
+  const playerName = useRef();
 
-  function handleChange(event) {
-    // 타이핑 수정까지 실시간으로 반영하는 것을 방지하기위해
-    // setSubmitted 를 false 로 설정
-    setSubmitted(false);
-    setEnteredPlayerName(event.target.value);
-  }
+  const [enteredPlayerName, setEnteredPlayerName] = useState("");
+  // useRef(참조) 를 활용하여 코드 4줄을 줄일 수 있다.
+  // const [submitted, setSubmitted] = useState(false);
+
+  // function handleChange(event) {
+  //   setSubmitted(false);
+  //   setEnteredPlayerName(event.target.value);
+  // }
 
   function handleClick() {
-    setSubmitted(true);
+    setEnteredPlayerName(playerName.current.value);
   }
 
   return (
     <section id="player">
-      <h2>Welcome {submitted ? enteredPlayerName : "unknown entity"}</h2>
+      <h2>Welcome {enteredPlayerName ?? "unknown entity"}</h2>
       <p>
-        <input type="text" onChange={handleChange} value={enteredPlayerName} />
+        <input ref={playerName} type="text" />
         <button onClick={handleClick}>Set Name</button>
       </p>
     </section>
