@@ -1,6 +1,23 @@
-export default function ResultModal({ result, targetTime }) {
+import { useImperativeHandle, useRef } from "react";
+
+export default function ResultModal({ ref, result, targetTime }) {
+  const dialog = useRef();
+
+  // 이 컴포넌트 외부에서 프로퍼티와 메서드를 통해 접근할 수 있도록 해주는 리액트 훅
+  // 첫 번째 인수: ref 객체
+  // 두 번째 인수: 함수
+  useImperativeHandle;
+  ref,
+    () => {
+      return {
+        open() {
+          dialog.current.showModal();
+        },
+      };
+    };
+
   return (
-    <dialog className="result-modal" open>
+    <dialog ref={dialog} className="result-modal">
       <h2>You {result}</h2>
       <p>
         The target time was <strong>{targetTime} seconds.</strong>
