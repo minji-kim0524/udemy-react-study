@@ -43,8 +43,10 @@ function App() {
       return [place, ...prevPickedPlaces];
     });
 
-    JSON.parse(localStorage.getItem("selectedPlaces")) || [];
-    localStorage.setItem("selectedPlaces", JSON.stringify([]));
+    const storeIds = JSON.parse(localStorage.getItem("selectedPlaces")) || [];
+    if (storeIds.indexOif(id) === -1) {
+      localStorage.setItem("selectedPlaces", JSON.stringify([id, ...storeIds]));
+    }
   }
 
   function handleRemovePlace() {
