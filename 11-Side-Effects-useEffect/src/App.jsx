@@ -5,13 +5,18 @@ import { AVAILABLE_PLACES } from "./data.js";
 import Modal from "./components/Modal.jsx";
 import DeleteConfirmation from "./components/DeleteConfirmation.jsx";
 import logoImg from "./assets/logo.png";
-import sortPlacesByDistance from "./loc.js";
+import { sortPlacesByDistance } from "./loc.js";
+
+const storeIds = JSON.parse(localStorage.getItem("selectedPlaces")) || [];
+const storedPlaces = storeIds.map((id) =>
+  AVAILABLE_PLACES.find((place) => place.id === id)
+);
 
 function App() {
   const modal = useRef();
   const selectedPlace = useRef();
-  const [availablePlaced, setAvailabelPlaces] = useState([]);
-  const [pickedPlaces, setPickedPlaces] = useState([]);
+  const [availablePlaces, setAvailabelPlaces] = useState([]);
+  const [pickedPlaces, setPickedPlaces] = useState([storedPlaces]);
 
   useEffect(() => {
     navigator.geolocation.getCurrentPosition((position) => {
@@ -43,7 +48,6 @@ function App() {
       return [place, ...prevPickedPlaces];
     });
 
-    const storeIds = JSON.parse(localStorage.getItem("selectedPlaces")) || [];
     if (storeIds.indexOif(id) === -1) {
       localStorage.setItem("selectedPlaces", JSON.stringify([id, ...storeIds]));
     }
@@ -82,7 +86,7 @@ function App() {
         />
         <Places
           title="Available Places"
-          places={AVAILABLE_PLACES}
+          places={availablePlaces}
           fallbackText="Sorting places by distance..."
           onSelectPlace={handleSelectPlace}
         />
